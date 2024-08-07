@@ -2,8 +2,9 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, GroupAction, TimerAction
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Command, FindPackageShare
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Command
 from launch.conditions import LaunchConfigurationEquals, LaunchConfigurationNotEquals, IfCondition
+from launch_ros.substitutions import FindPackageShare
 
 ARGUMENTS = [
     DeclareLaunchArgument(
@@ -23,8 +24,7 @@ def generate_launch_description():
 
     # Livox Driver
     livox_config_path = PathJoinSubstitution(
-        FindPackageShare('meta_nav_bringup'), 'config', 'mid360_params.json'
-    )
+        [FindPackageShare('meta_nav_bringup'), 'config', 'mid360_params.json'])
     livox_driver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution(
@@ -37,11 +37,9 @@ def generate_launch_description():
 
     # Point-LIO
     pointlio_mid360_params = PathJoinSubstitution(
-        FindPackageShare('meta_nav_bringup'), 'config', 'pointlio_mid360.yaml'
-    )
+        [FindPackageShare('meta_nav_bringup'), 'config', 'pointlio_mid360.yaml'])
     pointlio_rviz_cfg_dir = PathJoinSubstitution(
-        FindPackageShare('meta_nav_bringup'), 'rviz', 'pointlio.rviz'
-    )
+        [FindPackageShare('meta_nav_bringup'), 'rviz', 'pointlio.rviz'])
     point_lio = GroupAction(
         actions=[
             Node(
@@ -74,8 +72,8 @@ def generate_launch_description():
         ]
     )
 
-    return LaunchDescription(
+    return LaunchDescription([
         *ARGUMENTS,
         livox_driver,
         point_lio,
-    )
+    ])
