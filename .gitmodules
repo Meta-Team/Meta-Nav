@@ -1,0 +1,8 @@
+[submodule "odometry/Point-LIO"]
+	path = odometry/Point-LIO
+	url = https://github.com/LihanChen2004/Point-LIO.git
+	branch = ros2
+[submodule "3rdparty/livox_driver"]
+	path = 3rdparty/livox_driver
+	url = https://github.com/nice-mee/livox_ros_driver2_humble.git
+	branch = master
